@@ -126,7 +126,7 @@ char *convert_number(long int num, int base, int flags)
  * @buf: Pointer to the string buffer
  * Return: Always 0;
  */
-oid remove_comments(char *buf)
+void remove_comments(char *buf)
 {
 	int x;
 
