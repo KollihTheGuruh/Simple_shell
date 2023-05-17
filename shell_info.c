@@ -32,7 +32,7 @@ void clear_info(info_t *info)
  */
 void set_info(info_t *info, char **av)
 {
-	int i = 0;
+	int b = 0;
 
 	info->fname = av[0];
 	if (info->arg)
@@ -48,9 +48,9 @@ void set_info(info_t *info, char **av)
 				info->argv[1] = NULL;
 			}
 		}
-		for (i = 0; info->argv && info->argv[i]; i++)
+		for (b = 0; info->argv && info->argv[b]; b++)
 			;
-		info->argc = i;
+		info->argc = b;
 
 		replace_alias(info);
 		replace_vars(info);

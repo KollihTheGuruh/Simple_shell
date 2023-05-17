@@ -8,17 +8,17 @@
  */
 int _erratoi(char *s)
 {
-	int x = 0;
+	int k = 0;
 	unsigned long int result = 0;
 
 	if (*s == '+')
-		s++;  /* TODO: why does this make main return 255? */
-	for (x = 0;  s[x] != '\0'; x++)
+		s++;
+	for (k = 0;  s[k] != '\0'; k++)
 	{
-		if (s[x] >= '0' && s[x] <= '9')
+		if (s[k] >= '0' && s[k] <= '9')
 		{
 			result *= 10;
-			result += (s[x] - '0');
+			result += (s[k] - '0');
 			if (result > INT_MAX)
 				return (-1);
 		}
@@ -128,12 +128,12 @@ char *convert_number(long int num, int base, int flags)
  */
 void remove_comments(char *buf)
 {
-	int x;
+	int k;
 
-	for (x = 0; buf[x] != '\0'; x++)
-		if (buf[x] == '#' && (!x || buf[x - 1] == ' '))
+	for (k = 0; buf[k] != '\0'; k++)
+		if (buf[k] == '#' && (!k || buf[k - 1] == ' '))
 		{
-			buf[x] = '\0';
+			buf[k] = '\0';
 			break;
 		}
 }

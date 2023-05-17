@@ -9,16 +9,16 @@
 */
 char *_strcpy(char *dest, char *src)
 {
-	int x = 0;
+	int k = 0;
 
 	if (dest == src || src == 0)
 		return (dest);
-	while (src[x])
+	while (src[k])
 	{
-		dest[x] = src[x];
-		x++;
+		dest[k] = src[k];
+		k++;
 	}
-	dest[x] = 0;
+	dest[k] = 0;
 	return (dest);
 }
 
@@ -30,19 +30,20 @@ char *_strcpy(char *dest, char *src)
 */
 char *_strdup(const char *str)
 {
-int length = 0;
-char *ret;
+	int length = 0;
+	char *ret;
 
-if (str == NULL)
-return (NULL);
-while (*str++)
-length++;
-ret = malloc(sizeof(char) * (length + 1));
-if (!ret)
-return (NULL);
-for (length++; length--;)
-ret[length] = *--str;
-return (ret);
+	if (str == NULL)
+	return (NULL);
+	while (*str++)
+	length++;
+	ret = malloc(sizeof(char) * (length + 1));
+	if (!ret)
+	return (NULL);
+
+	for (length++; length--;)
+	ret[length] = *--str;
+	return (ret);
 }
 
 /**
@@ -53,14 +54,14 @@ return (ret);
 */
 void _puts(char *str)
 {
-	int x = 0;
+	int k = 0;
 
 	if (!str)
 		return;
-	while (str[x] != '\0')
+	while (str[k] != '\0')
 	{
-		_putchar(str[x]);
-		x++;
+		_putchar(str[k]);
+		k++;
 	}
 }
 
