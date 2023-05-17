@@ -8,10 +8,8 @@
  */
 int bfree(void **ptr)
 {
-	/* Check if pointer exists and is not NULL */
 	if (ptr && *ptr)
 	{
-		/* Free memory and set pointer to NULL */
 		free(*ptr);
 		*ptr = NULL;
 		return (1);
