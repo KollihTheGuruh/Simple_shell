@@ -1,5 +1,24 @@
 #include "main.h"
 
+/**
+ * renumber_history - Renumber the history indices
+ * @info: Pointer to the info_t structure
+ *
+ * Return: void
+ */
+
+int renumber_history(info_t *info)
+{
+	list_t *node = info->history;
+	int b = 0;
+
+	while (node)
+	{
+		node->num = b++;
+		node = node->next;
+	}
+	return (info->histcount = b);
+}
 
 /**
  * get_history_file - Retrieves the history file path
@@ -25,35 +44,6 @@ char *get_history_file(info_t *info)
 	return (buf);
 }
 
-/**
- * write_history - Writes command history to a file
- * @info: Pointer to the info_t structure
- *
- * Return: 0 on success, -1 on failure
- */
-
-int write_history(info_t *info)
-{
-	ssize_t fd;
-	char *filename = get_history_file(info);
-	list_t *node = NULL;
-
-	if (!filename)
-		return (-1);
-
-	fd = open(filename, O_CREAT | O_TRUNC | O_RDWR, 0644);
-	free(filename);
-	if (fd == -1)
-		return (-1);
-	for (node = info->history; node; node = node->next)
-	{
-		_putsfd(node->str, fd);
-		_putfd('\n', fd);
-	}
-	_putfd(BUF_FLUSH, fd);
-	close(fd);
-	return (1);
-}
 
 /**
  * read_history - Reads the command history from a file
@@ -128,21 +118,31 @@ int build_history_list(info_t *info, char *buf, int linecount)
 }
 
 /**
- * renumber_history - Renumber the history indices
+ * write_history - Writes command history to a file
  * @info: Pointer to the info_t structure
  *
- * Return: void
+ * Return: 0 on success, -1 on failure
  */
 
-int renumber_history(info_t *info)
+int write_history(info_t *info)
 {
-	list_t *node = info->history;
-	int b = 0;
+	ssize_t fd;
+	char *filename = get_history_file(info);
+	list_t *node = NULL;
 
-	while (node)
+	if (!filename)
+		return (-1);
+
+	fd = open(filename, O_CREAT | O_TRUNC | O_RDWR, 0644);
+	free(filename);
+	if (fd == -1)
+		return (-1);
+	for (node = info->history; node; node = node->next)
 	{
-		node->num = b++;
-		node = node->next;
+		_putsfd(node->str, fd);
+		_putfd('\n', fd);
 	}
-	return (info->histcount = b);
+	_putfd(BUF_FLUSH, fd);
+	close(fd);
+	return (1);
 }

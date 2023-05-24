@@ -1,19 +1,43 @@
 #include "main.h"
 
 /**
- * clear_info - Clears the contents of the given info struct
+ * free_info - Frees memory allocated
+ * for an info_t struct and its contents
+ * @info: Pointer to the info_t struct to free
+ * @all: Boolean flag indicating whether
+ * to free all contents of info_t
  *
- * This function sets all the fields of the info struct pointed to by the
- * `info` parameter to 0 or NULL, effectively clearing its contents.
- *
- * @info: Pointer to the info struct to be cleared
+ * This function frees the memory allocated
+ * for an info_t struct and its contents,
+ * including the filename, file_contents,
+ * and line_number fields. If the all flag
+ * is set to a non-zero value, the contents
+ * of the file_contents field will also be
+ * freed. If the flag is set to zero, only
+ * the struct and filename fields will be freed.
  */
-void clear_info(info_t *info)
+void free_info(info_t *info, int all)
 {
-	info->arg = NULL;
+	ffree(info->argv);
 	info->argv = NULL;
 	info->path = NULL;
-	info->argc = 0;
+	if (all)
+	{
+		if (!info->cmd_buf)
+			free(info->arg);
+		if (info->env)
+			free_list(&(info->env));
+		if (info->history)
+			free_list(&(info->history));
+		if (info->alias)
+			free_list(&(info->alias));
+		ffree(info->environ);
+			info->environ = NULL;
+		bfree((void **)info->cmd_buf);
+		if (info->readfd > 2)
+			close(info->readfd);
+		_putchar(BUF_FLUSH);
+	}
 }
 
 /**
@@ -58,41 +82,17 @@ void set_info(info_t *info, char **av)
 }
 
 /**
- * free_info - Frees memory allocated
- * for an info_t struct and its contents
- * @info: Pointer to the info_t struct to free
- * @all: Boolean flag indicating whether
- * to free all contents of info_t
+ * clear_info - Clears the contents of the given info struct
  *
- * This function frees the memory allocated
- * for an info_t struct and its contents,
- * including the filename, file_contents,
- * and line_number fields. If the all flag
- * is set to a non-zero value, the contents
- * of the file_contents field will also be
- * freed. If the flag is set to zero, only
- * the struct and filename fields will be freed.
+ * This function sets all the fields of the info struct pointed to by the
+ * `info` parameter to 0 or NULL, effectively clearing its contents.
+ *
+ * @info: Pointer to the info struct to be cleared
  */
-void free_info(info_t *info, int all)
+void clear_info(info_t *info)
 {
-	ffree(info->argv);
+	info->arg = NULL;
 	info->argv = NULL;
 	info->path = NULL;
-	if (all)
-	{
-		if (!info->cmd_buf)
-			free(info->arg);
-		if (info->env)
-			free_list(&(info->env));
-		if (info->history)
-			free_list(&(info->history));
-		if (info->alias)
-			free_list(&(info->alias));
-		ffree(info->environ);
-			info->environ = NULL;
-		bfree((void **)info->cmd_buf);
-		if (info->readfd > 2)
-			close(info->readfd);
-		_putchar(BUF_FLUSH);
-	}
+	info->argc = 0;
 }

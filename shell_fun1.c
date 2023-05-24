@@ -1,34 +1,6 @@
 #include "main.h"
 
 /**
- * _erratoi - converts a string to an integer
- * @s: the string to be converted
- * Return: 0 if no numbers in string, converted number otherwise
- *       -1 on error
- */
-int _erratoi(char *s)
-{
-	int k = 0;
-	unsigned long int result = 0;
-
-	if (*s == '+')
-		s++;
-	for (k = 0;  s[k] != '\0'; k++)
-	{
-		if (s[k] >= '0' && s[k] <= '9')
-		{
-			result *= 10;
-			result += (s[k] - '0');
-			if (result > INT_MAX)
-				return (-1);
-		}
-		else
-			return (-1);
-	}
-	return (result);
-}
-
-/**
  * print_error - prints an error message
  * @info: the parameter & return info struct
  * @estr: string containing specified error type
@@ -86,6 +58,23 @@ int print_d(int input, int fd)
 }
 
 /**
+ * remove_comments - Removes comments from a string buffer
+ * @buf: Pointer to the string buffer
+ * Return: Always 0;
+ */
+void remove_comments(char *buf)
+{
+	int k;
+
+	for (k = 0; buf[k] != '\0'; k++)
+		if (buf[k] == '#' && (!k || buf[k - 1] == ' '))
+		{
+			buf[k] = '\0';
+			break;
+		}
+}
+
+/**
  * convert_number - converter function, a clone of itoa
  * @num: number
  * @base: base
@@ -122,18 +111,29 @@ char *convert_number(long int num, int base, int flags)
 }
 
 /**
- * remove_comments - Removes comments from a string buffer
- * @buf: Pointer to the string buffer
- * Return: Always 0;
+ * _erratoi - converts a string to an integer
+ * @s: the string to be converted
+ * Return: 0 if no numbers in string, converted number otherwise
+ *       -1 on error
  */
-void remove_comments(char *buf)
+int _erratoi(char *s)
 {
-	int k;
+	int k = 0;
+	unsigned long int result = 0;
 
-	for (k = 0; buf[k] != '\0'; k++)
-		if (buf[k] == '#' && (!k || buf[k - 1] == ' '))
+	if (*s == '+')
+		s++;
+	for (k = 0;  s[k] != '\0'; k++)
+	{
+		if (s[k] >= '0' && s[k] <= '9')
 		{
-			buf[k] = '\0';
-			break;
+			result *= 10;
+			result += (s[k] - '0');
+			if (result > INT_MAX)
+				return (-1);
 		}
+		else
+			return (-1);
+	}
+	return (result);
 }
