@@ -1,28 +1,6 @@
 #include "main.h"
 
 /**
-* _strcpy - copies a string
-* @dest: the destination
-* @src: the source
-*
-* Return: pointer to destination
-*/
-char *_strcpy(char *dest, char *src)
-{
-	int k = 0;
-
-	if (dest == src || src == 0)
-		return (dest);
-	while (src[k])
-	{
-		dest[k] = src[k];
-		k++;
-	}
-	dest[k] = 0;
-	return (dest);
-}
-
-/**
 * _strdup - duplicates a string
 * @str: the string to duplicate
 *
@@ -47,23 +25,27 @@ char *_strdup(const char *str)
 }
 
 /**
-*_puts - prints an input string
-*@str: the string to be printed
+* _strcpy - copies a string
+* @dest: the destination
+* @src: the source
 *
-* Return: Nothing
+* Return: pointer to destination
 */
-void _puts(char *str)
+char *_strcpy(char *dest, char *src)
 {
 	int k = 0;
 
-	if (!str)
-		return;
-	while (str[k] != '\0')
+	if (dest == src || src == 0)
+		return (dest);
+	while (src[k])
 	{
-		_putchar(str[k]);
+		dest[k] = src[k];
 		k++;
 	}
+	dest[k] = 0;
+	return (dest);
 }
+
 
 /**
 * _putchar - writes the character c to stdout
@@ -85,4 +67,23 @@ int _putchar(char c)
 	if (c != BUF_FLUSH)
 		buf[x++] = c;
 	return (1);
+}
+
+/**
+*_puts - prints an input string
+*@str: the string to be printed
+*
+* Return: Nothing
+*/
+void _puts(char *str)
+{
+	int k = 0;
+
+	if (!str)
+		return;
+	while (str[k] != '\0')
+	{
+		_putchar(str[k]);
+		k++;
+	}
 }
