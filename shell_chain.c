@@ -128,7 +128,7 @@ int replace_vars(info_t *info)
 		if (info->argv[k][0] != '$' || !info->argv[k][1])
 			continue;
 
-		if (!_strcmp(info->argv[i], "$?"))
+		if (!_strcmp(info->argv[k], "$?"))
 		{
 			replace_string(&(info->argv[k]),
 				_strdup(convert_number(info->status, 10, 0)));
