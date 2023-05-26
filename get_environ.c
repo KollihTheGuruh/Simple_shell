@@ -1,27 +1,22 @@
 #include "main.h"
 
 /**
- * populate_env_list - Populates the environment list
- * @info: Pointer to the info_t struct
+ * _myenv - Retrieves environment information.
+ * @info: Pointer to the info_t struct containing relevant data.
  *
- * This function populates the environment list in the info_t struct
- * with the environment variables from the current environment.
- * The info_t struct should be initialized before calling this function.
+ * This function retrieves environment information using the given
+ * info_t struct.
+ * It performs the necessary operations to gather the required data and returns
+ * the result.
  *
- * Return: void
+ * Return: An integer value representing the status of the operation.
  */
 
-int populate_env_list(info_t *info)
+int _myenv(info_t *info)
 {
-	list_t *node = NULL;
-	size_t m;
-
-	for (m = 0; environ[m]; m++)
-		add_node_end(&node, environ[m], 0);
-	info->env = node;
+	print_list_str(info->env);
 	return (0);
 }
-
 
 /**
  * _getenv - Retrieves the value of an environment variable.
@@ -91,19 +86,23 @@ int _myunsetenv(info_t *info)
 }
 
 /**
- * _myenv - Retrieves environment information.
- * @info: Pointer to the info_t struct containing relevant data.
+ * populate_env_list - Populates the environment list
+ * @info: Pointer to the info_t struct
  *
- * This function retrieves environment information using the given
- * info_t struct.
- * It performs the necessary operations to gather the required data and returns
- * the result.
+ * This function populates the environment list in the info_t struct
+ * with the environment variables from the current environment.
+ * The info_t struct should be initialized before calling this function.
  *
- * Return: An integer value representing the status of the operation.
+ * Return: void
  */
 
-int _myenv(info_t *info)
+int populate_env_list(info_t *info)
 {
-	print_list_str(info->env);
+	list_t *node = NULL;
+	size_t m;
+
+	for (m = 0; environ[m]; m++)
+		add_node_end(&node, environ[m], 0);
+	info->env = node;
 	return (0);
 }
