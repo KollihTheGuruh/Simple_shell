@@ -1,28 +1,6 @@
 #include "main.h"
 
 /**
-* dup_chars - Copies characters from a string
-* into a buffer between given start and stop indices.
-*
-* @pathstr: the string to copy from.
-* @start: the index to start copying from.
-* @stop: the index to stop copying at.
-*
-* Return: a pointer to the buffer containing the copied characters.
-*/
-char *dup_chars(char *pathstr, int start, int stop)
-{
-	static char buf[1024];
-	int k = 0, l = 0;
-
-	for (l = 0, k = start; k < stop; k++)
-		if (pathstr[k] != ':')
-			buf[l++] = pathstr[k];
-	buf[l] = 0;
-	return (buf);
-}
-
-/**
 * is_cmd - determines if a file is an executable command
 * @info: the info struct
 * @path: path to the file
@@ -44,6 +22,27 @@ int is_cmd(info_t *info, char *path)
 	return (0);
 }
 
+/**
+* dup_chars - Copies characters from a string
+* into a buffer between given start and stop indices.
+*
+* @pathstr: the string to copy from.
+* @start: the index to start copying from.
+* @stop: the index to stop copying at.
+*
+* Return: a pointer to the buffer containing the copied characters.
+*/
+char *dup_chars(char *pathstr, int start, int stop)
+{
+	static char buf[1024];
+	int k = 0, l = 0;
+
+	for (l = 0, k = start; k < stop; k++)
+		if (pathstr[k] != ':')
+			buf[l++] = pathstr[k];
+	buf[l] = 0;
+	return (buf);
+}
 
 /**
 * find_path - finds this cmd in the PATH string

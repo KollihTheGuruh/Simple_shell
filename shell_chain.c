@@ -1,6 +1,42 @@
 #include "main.h"
 
 /**
+ * is_chain - Checks if a chain exists in the given buffer.
+ * @info: Pointer to the info_t struct containing relevant information.
+ * @buf: Pointer to the buffer to be checked.
+ * @p: Pointer to the size_t variable representing the buffer size.
+ *
+ * Return: 1 if a chain is found, 0 otherwise.
+ */
+
+int is_chain(info_t *info, char *buf, size_t *p)
+{
+	size_t j = *p;
+
+	if (buf[j] == '|' && buf[j + 1] == '|')
+	{
+		buf[j] = 0;
+		j++;
+		info->cmd_buf_type = CMD_OR;
+	}
+	else if (buf[j] == '&' && buf[j + 1] == '&')
+	{
+		buf[j] = 0;
+		j++;
+		info->cmd_buf_type = CMD_AND;
+	}
+	else if (buf[j] == ';') /* found end of this command */
+	{
+		buf[j] = 0; /* replace semicolon with null */
+		info->cmd_buf_type = CMD_CHAIN;
+	}
+	else
+		return (0);
+	*p = j;
+	return (1);
+}
+
+/**
  * check_chain - Check the chain for information.
  * @info: Pointer to the info_t structure.
  * @buf: Pointer to the buffer.
@@ -38,21 +74,6 @@ void check_chain(info_t *info, char *buf, size_t *p, size_t i, size_t len)
 }
 
 /**
- * replace_string - Replaces a string pointed to by old with a new string.
- * @old: Pointer to a pointer to the old string.
- * @new: Pointer to the new string.
- *
- * Return: The length of the replaced string, or -1 on failure.
- */
-
-int replace_string(char **old, char *new)
-{
-	free(*old);
-	*old = new;
-	return (1);
-}
-
-/**
  * replace_alias - Replaces alias information.
  * @info: Pointer to the info_t structure containing alias data.
  *
@@ -63,6 +84,7 @@ int replace_string(char **old, char *new)
  *
  * Return: None.
  */
+
 int replace_alias(info_t *info)
 {
 	int k;
@@ -132,37 +154,16 @@ int replace_vars(info_t *info)
 }
 
 /**
- * is_chain - Checks if a chain exists in the given buffer.
- * @info: Pointer to the info_t struct containing relevant information.
- * @buf: Pointer to the buffer to be checked.
- * @p: Pointer to the size_t variable representing the buffer size.
+ * replace_string - Replaces a string pointed to by old with a new string.
+ * @old: Pointer to a pointer to the old string.
+ * @new: Pointer to the new string.
  *
- * Return: 1 if a chain is found, 0 otherwise.
+ * Return: The length of the replaced string, or -1 on failure.
  */
 
-int is_chain(info_t *info, char *buf, size_t *p)
+int replace_string(char **old, char *new)
 {
-	size_t j = *p;
-
-	if (buf[j] == '|' && buf[j + 1] == '|')
-	{
-		buf[j] = 0;
-		j++;
-		info->cmd_buf_type = CMD_OR;
-	}
-	else if (buf[j] == '&' && buf[j + 1] == '&')
-	{
-		buf[j] = 0;
-		j++;
-		info->cmd_buf_type = CMD_AND;
-	}
-	else if (buf[j] == ';') /* found end of this command */
-	{
-		buf[j] = 0; /* replace semicolon with null */
-		info->cmd_buf_type = CMD_CHAIN;
-	}
-	else
-		return (0);
-	*p = j;
+	free(*old);
+	*old = new;
 	return (1);
 }
