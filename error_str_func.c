@@ -1,26 +1,5 @@
 #include "main.h"
 
-
-/**
- * _putsfd - Writes a string to a file descriptor
- * @str: Pointer to the string to be written
- * @fd: File descriptor to write the string to
- *
- * Return: Number of characters written
- */
-int _putsfd(char *str, int fd)
-{
-	int b = 0;
-
-	if (!str)
-		return (0);
-	while (*str)
-	{
-		b += _putfd(*str++, fd);
-	}
-	return (b);
-}
-
 /**
  * _eputs - Prints a string to the standard error output
  * @str: Pointer to the string to be printed
@@ -45,6 +24,27 @@ void _eputs(char *str)
 	}
 }
 
+/**
+ * _eputchar - Writes a character to the standard error
+ * @c: The character to be written
+ *
+ * Return: On success, the character written. On failure, -1.
+ */
+
+int _eputchar(char c)
+{
+	static int b;
+	static char buf[WRITE_BUF_SIZE];
+
+	if (c == BUF_FLUSH || b >= WRITE_BUF_SIZE)
+	{
+		write(2, buf, b);
+		b = 0;
+	}
+	if (c != BUF_FLUSH)
+		buf[b++] = c;
+	return (1);
+}
 
 /**
  * _putfd - Writes a character to a file descriptor
@@ -69,24 +69,23 @@ int _putfd(char c, int fd)
 	return (1);
 }
 
+
 /**
- * _eputchar - Writes a character to the standard error
- * @c: The character to be written
+ * _putsfd - Writes a string to a file descriptor
+ * @str: Pointer to the string to be written
+ * @fd: File descriptor to write the string to
  *
- * Return: On success, the character written. On failure, -1.
+ * Return: Number of characters written
  */
-
-int _eputchar(char c)
+int _putsfd(char *str, int fd)
 {
-	static int b;
-	static char buf[WRITE_BUF_SIZE];
+	int b = 0;
 
-	if (c == BUF_FLUSH || b >= WRITE_BUF_SIZE)
+	if (!str)
+		return (0);
+	while (*str)
 	{
-		write(2, buf, b);
-		b = 0;
+		b += _putfd(*str++, fd);
 	}
-	if (c != BUF_FLUSH)
-		buf[b++] = c;
-	return (1);
+	return (b);
 }

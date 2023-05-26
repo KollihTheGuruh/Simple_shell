@@ -19,6 +19,39 @@ char **get_environ(info_t *info)
 }
 
 /**
+ * _unsetenv - Removes an environment variable
+ * @info: Pointer to the info_t structure
+ * @var: Pointer to the variable to be removed
+ *
+ * Return: 0 on success, -1 on failure
+ */
+
+int _unsetenv(info_t *info, char *var)
+{
+	list_t *node = info->env;
+	size_t f = 0;
+	char *p;
+
+	if (!node || !var)
+		return (0);
+
+	while (node)
+	{
+		p = starts_with(node->str, var);
+		if (p && *p == '=')
+		{
+			info->env_changed = delete_node_at_index(&(info->env), f);
+			f = 0;
+			node = info->env;
+			continue;
+		}
+		node = node->next;
+		f++;
+	}
+	return (info->env_changed);
+}
+
+/**
  * _setenv - Update or create an environment variable
  * @info: Pointer to the info_t struct
  * @var: Name of the variable to set or update
@@ -59,37 +92,4 @@ int _setenv(info_t *info, char *var, char *value)
 	free(buf);
 	info->env_changed = 1;
 	return (0);
-}
-
-/**
- * _unsetenv - Removes an environment variable
- * @info: Pointer to the info_t structure
- * @var: Pointer to the variable to be removed
- *
- * Return: 0 on success, -1 on failure
- */
-
-int _unsetenv(info_t *info, char *var)
-{
-	list_t *node = info->env;
-	size_t f = 0;
-	char *p;
-
-	if (!node || !var)
-		return (0);
-
-	while (node)
-	{
-		p = starts_with(node->str, var);
-		if (p && *p == '=')
-		{
-			info->env_changed = delete_node_at_index(&(info->env), f);
-			f = 0;
-			node = info->env;
-			continue;
-		}
-		node = node->next;
-		f++;
-	}
-	return (info->env_changed);
 }
